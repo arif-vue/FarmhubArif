@@ -1,0 +1,22 @@
+Farm hub
+
+Prompt1:
+First read the project folders. “Api” folder to make all api. “Authentications” folder to make all authentications. then read the project requirements and think longer and understand the business logic. 
+Create a DRF(django rest framework project).project should be humanize like human coding. Code should be readable, simple and perfect and professional.do not write messy code. Comment should be powerful(do not write comments for single line code). after added new code add professional GitHub commit(commit should be professional and powerfull and meaningful) I already created project folder, create virtual environment and activated the venv, so do not bother about this. 
+ project overview:
+Building farmhub, a simplified farm management platform designed for an agritech company. The platform will allow registration of farms ,onboarding of farmers,enrollment of cows,and tracking of daily operations such as milk production and health-related activities.
+
+Roles: superAdmin:holds full access to the system. This role can create agents, farms and farmers, and has the ability to view and audit all data across the platform.
+Agent:manages assigned farms, onboards farmers, and can record and manage farm-level data.this role operates within the scope of their assigned farms only.
+farmer: belongs to a single farm and can manager their own cows. Farmers are responsible for recording daily milk production and logging activities	 such as vaccinations, birth, and health checks.  notes:proper roles based access should ensure that users can only interact with the data they are authorized to manage.
+
+Core features:
+Farm management: superadmins and agents can create farms. Each farm is linked to an agent who acts as its manager.
+Farmer management: farmers are registered as system users with limited permissions and are assigned to a specific farm.
+Cow management: farmers enroll their cows under their farm, including details such as id/tag,breed,and basic information.
+Activities:farmers can log health and other activities for their cows, including vaccinations,births,and other events.
+Milk production: daily milk yield can be recorded per cow or aggregated per farm. The system should support queries such as total milk produced by a farm , by an individual farmer, or within a given data range.
+
+Prompt2: now test all endpoints and after get all endpoints pass , make postman collection again (i wll make token variable manually,just add body data)
+prompt3:
+final commit push to github
