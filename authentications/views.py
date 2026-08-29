@@ -6,13 +6,26 @@ from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken
 
 from .models import User
-from .serializers import UserRegistrationSerializer, UserSerializer
+from .serializers import AdminUserCreateSerializer, UserRegistrationSerializer, UserSerializer
 
 
 @api_view(["POST"])
 @permission_classes([AllowAny])
 def register_view(request):
     serializer = UserRegistrationSerializer(data=request.data)
+    if serializer.is_valid():
+        user = serializer.save()
+        return Response(UserSerializer(user).data, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(["POST"])
+@permission_classes([IsAuthenticated])
+def user_create_view(request):
+    if not request.user.is_super_admin:
+        return Response({"detail": "Only super admins can create platform users."}, status=status.HTTP_403_FORBIDDEN)
+
+    serializer = AdminUserCreateSerializer(data=request.data)
     if serializer.is_valid():
         user = serializer.save()
         return Response(UserSerializer(user).data, status=status.HTTP_201_CREATED)

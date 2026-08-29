@@ -158,11 +158,32 @@ class MilkRecordListCreateAPIView(generics.ListCreateAPIView):
 @api_view(["GET"])
 @permission_classes([IsAuthenticated])
 def milk_summary(request):
-    queryset = MilkRecord.objects.all()
+    queryset = MilkRecord.objects.select_related("cow__farm", "cow__owner")
+
+    farm_id = request.query_params.get("farm_id")
+    farmer_id = request.query_params.get("farmer_id")
+    start_date = request.query_params.get("start_date")
+    end_date = request.query_params.get("end_date")
+
     if request.user.is_agent:
         queryset = queryset.filter(cow__farm__agent=request.user)
     elif request.user.is_farmer:
         queryset = queryset.filter(cow__owner=request.user)
+
+    if farm_id:
+        queryset = queryset.filter(cow__farm_id=farm_id)
+    if farmer_id:
+        queryset = queryset.filter(cow__owner_id=farmer_id)
+
+    if start_date:
+        start = parse_date(start_date)
+        if start:
+            queryset = queryset.filter(recorded_on__gte=start)
+
+    if end_date:
+        end = parse_date(end_date)
+        if end:
+            queryset = queryset.filter(recorded_on__lte=end)
 
     total = queryset.aggregate(total=Sum("quantity_liters"))["total"] or Decimal("0")
     return Response({"total_quantity_liters": float(total)})

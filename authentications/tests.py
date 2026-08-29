@@ -56,3 +56,28 @@ class AuthenticationAPITestCase(APITestCase):
         self.assertEqual(response.data["username"], "farmer1")
         self.assertEqual(response.data["email"], "farmer1@example.com")
         self.assertNotIn("password", response.data)
+
+    def test_create_superuser_sets_super_admin_role(self):
+        user = User.objects.create_superuser(
+            username="adminuser",
+            email="admin@example.com",
+            password="StrongPass123!",
+        )
+
+        self.assertTrue(user.is_staff)
+        self.assertTrue(user.is_superuser)
+        self.assertEqual(user.role, User.ROLE_SUPER_ADMIN)
+        self.assertTrue(user.is_super_admin)
+
+    def test_is_super_admin_works_for_existing_superuser_with_stale_role(self):
+        user = User.objects.create_user(
+            username="legacyadmin",
+            email="legacyadmin@example.com",
+            password="StrongPass123!",
+            role="farmer",
+            is_superuser=True,
+            is_staff=True,
+        )
+
+        self.assertTrue(user.is_superuser)
+        self.assertTrue(user.is_super_admin)

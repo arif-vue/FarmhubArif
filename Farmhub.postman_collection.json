@@ -1,0 +1,595 @@
+{
+  "info": {
+    "name": "FarmHub API",
+    "description": "FarmHub authentication and farm management API collection. Set the access_token variable manually after login.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://127.0.0.1:8000",
+      "type": "string"
+    },
+    {
+      "key": "access_token",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "refresh_token",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Register Farmer",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"farmer1\",\n  \"email\": \"farmer1@example.com\",\n  \"password\": \"StrongPass123!\",\n  \"role\": \"farmer\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/register/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "auth",
+                "register",
+                ""
+              ]
+            }
+          }
+        },
+        {
+          "name": "Create Admin or Agent User",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"agent1\",\n  \"email\": \"agent1@example.com\",\n  \"password\": \"StrongPass123!\",\n  \"role\": \"agent\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/users/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "auth",
+                "users",
+                ""
+              ]
+            }
+          }
+        },
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"admin\",\n  \"password\": \"StrongPass123!\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/login/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "auth",
+                "login",
+                ""
+              ]
+            }
+          }
+        },
+        {
+          "name": "Refresh Token",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"refresh\": \"{{refresh_token}}\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/token/refresh/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "auth",
+                "token",
+                "refresh",
+                ""
+              ]
+            }
+          }
+        },
+        {
+          "name": "Me",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/auth/me/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "auth",
+                "me",
+                ""
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Farm",
+      "item": [
+        {
+          "name": "List Farms",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/farms/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "farms",
+                ""
+              ]
+            }
+          }
+        },
+        {
+          "name": "Create Farm",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Green Valley\",\n  \"location\": \"Riverside\",\n  \"agent\": 1\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/farms/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "farms",
+                ""
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Farm Detail",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/farms/1/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "farms",
+                "1",
+                ""
+              ]
+            }
+          }
+        },
+        {
+          "name": "Update Farm",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Green Valley Updated\",\n  \"location\": \"North Riverside\",\n  \"agent\": 1\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/farms/1/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "farms",
+                "1",
+                ""
+              ]
+            }
+          }
+        },
+        {
+          "name": "Farm Summary",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/farms/1/summary/?start_date=2026-08-01&end_date=2026-08-30",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "farms",
+                "1",
+                "summary",
+                ""
+              ],
+              "query": [
+                {
+                  "key": "start_date",
+                  "value": "2026-08-01"
+                },
+                {
+                  "key": "end_date",
+                  "value": "2026-08-30"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Farmer",
+      "item": [
+        {
+          "name": "List Farmer Profiles",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/farmers/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "farmers",
+                ""
+              ]
+            }
+          }
+        },
+        {
+          "name": "Create Farmer Profile",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"user\": 3,\n  \"farm\": 1\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/farmers/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "farmers",
+                ""
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Cow",
+      "item": [
+        {
+          "name": "List Cows",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/cows/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "cows",
+                ""
+              ]
+            }
+          }
+        },
+        {
+          "name": "Create Cow",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Buttercup\",\n  \"tag_number\": \"COW-001\",\n  \"breed\": \"Holstein\",\n  \"farm\": 1,\n  \"owner\": 3,\n  \"date_of_birth\": \"2020-01-15\",\n  \"notes\": \"Healthy cow\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/cows/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "cows",
+                ""
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Activity",
+      "item": [
+        {
+          "name": "List Activities",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/activities/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "activities",
+                ""
+              ]
+            }
+          }
+        },
+        {
+          "name": "Create Activity",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"cow\": 1,\n  \"activity_type\": \"vaccination\",\n  \"occurred_on\": \"2026-08-29\",\n  \"description\": \"Vaccination completed\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/activities/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "activities",
+                ""
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Milk",
+      "item": [
+        {
+          "name": "List Milk Records",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/milk/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "milk",
+                ""
+              ]
+            }
+          }
+        },
+        {
+          "name": "Create Milk Record",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"cow\": 1,\n  \"recorded_on\": \"2026-08-29\",\n  \"quantity_liters\": 18.5,\n  \"notes\": \"Morning milking\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/milk/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "milk",
+                ""
+              ]
+            }
+          }
+        },
+        {
+          "name": "Milk Summary",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/milk/summary/?farm_id=1&farmer_id=3&start_date=2026-08-01&end_date=2026-08-30",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "milk",
+                "summary",
+                ""
+              ],
+              "query": [
+                {
+                  "key": "farm_id",
+                  "value": "1"
+                },
+                {
+                  "key": "farmer_id",
+                  "value": "3"
+                },
+                {
+                  "key": "start_date",
+                  "value": "2026-08-01"
+                },
+                {
+                  "key": "end_date",
+                  "value": "2026-08-30"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

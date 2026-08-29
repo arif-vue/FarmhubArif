@@ -19,6 +19,26 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
         fields = ["id", "username", "email", "password", "role"]
 
     def validate_role(self, value):
+        if value != User.ROLE_FARMER:
+            raise serializers.ValidationError("Public registration is only allowed for farmers.")
+        return value
+
+    def create(self, validated_data):
+        password = validated_data.pop("password")
+        user = User(**validated_data)
+        user.set_password(password)
+        user.save()
+        return user
+
+
+class AdminUserCreateSerializer(serializers.ModelSerializer):
+    password = serializers.CharField(write_only=True, min_length=8)
+
+    class Meta:
+        model = User
+        fields = ["id", "username", "email", "password", "role"]
+
+    def validate_role(self, value):
         valid_roles = {User.ROLE_SUPER_ADMIN, User.ROLE_AGENT, User.ROLE_FARMER}
         if value not in valid_roles:
             raise serializers.ValidationError("Invalid role selected.")
